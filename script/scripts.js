@@ -57,6 +57,7 @@ const questions = [
 ];
 
 function renderStartScreen() {
+  // "VÄLKOMSTSKÄRM"
   quizContainer.innerHTML = "";
   const welcome = document.createElement("h2");
   welcome.textContent = "Redo att quiza?";
@@ -102,7 +103,7 @@ function renderQuiz() {
     // SPELET ÄR SLUT
     const endOfQuizGreeting = document.createElement("h2");
     const resultHeader = document.createElement("p");
-    // Vi använder "Template literals" (backticks ` `) för att enkelt blanda text och variabler
+    // använder "Template literals" (backticks ` `) för att blanda text och variabler
     endOfQuizGreeting.textContent = `Snyggt jobbat ${userName}!`;
     endOfQuizGreeting.className = "mb-3";
     resultHeader.textContent = `Resultat: ${correctAnswers} av ${questions.length} rätt`;
@@ -125,11 +126,11 @@ function renderQuiz() {
       const listItem = document.createElement("li"); // skapa en lista med fel svar
       listItem.className = "list-group-item list-group-item-danger";
       listItem.innerHTML = `
-          <strong>Fråga:</strong> ${wrongAnswer.question} <br> 
+          <strong>Fråga:</strong> ${wrongAnswer.question} <br>
           <strong>Ditt svar:</strong> ${wrongAnswer.userAnswer} <br> 
           <strong>Rätt svar:</strong> ${wrongAnswer.validAnswer}
         `;
-
+      // fetstilt med <strong> och line break med <br>
       wrongList.append(listItem);
     });
     quizContainer.append(wrongList);
@@ -146,7 +147,7 @@ function renderQuiz() {
     quizContainer.append(playAgain);
   } else {
     // SPELET PÅGÅR
-    const ctQstn = questions[currentQuestion]; // se till så att rätt fråga visas, hämtad från array
+    const ctQstn = questions[currentQuestion]; // ser till så att rätt fråga visas, hämtad från array
     const qstnHeader = document.createElement("h2"); // skapa rubrik för frågan
     qstnHeader.textContent = ctQstn.question; // fyll header med frågan, hämtad från array
     qstnHeader.className = "mb-4";
@@ -176,22 +177,20 @@ function answerHandler(userAnswer) {
   const ctQstn = questions[currentQuestion];
   const allButtons = quizContainer.querySelectorAll("button"); // hitta alla knappar/svarsalternativ så vi kan låsa dem
   allButtons.forEach((btn) => {
-    // kolla igenom knapparna
-    btn.disabled = true; // avaktivera knapparna
+    // kolla igenom knapparna (svarsalternativen)
+    btn.disabled = true; // avaktivera knapparna för att förhindra fusk/ogiltig inmatning
     if (btn.textContent === ctQstn.validAnswer) {
       btn.style.backgroundColor = "lightgreen"; // grön om det är rätt
     } else {
-      btn.style.backgroundColor = "red";
+      btn.style.backgroundColor = "red"; // röd om fel
     }
   });
   const feedbackText = document.createElement("p");
 
   if (userAnswer === ctQstn.validAnswer) {
     correctAnswers++;
-    // console.log("Rätt svar."); loggade först för att se så funktionen gjorde det den skulle
     feedbackText.textContent = "Rätt svar.";
   } else {
-    // console.log("Fel svar.");
     feedbackText.textContent = "Fel svar.";
     wrongAnswers.push({
       question: ctQstn.question,
@@ -207,7 +206,6 @@ function answerHandler(userAnswer) {
   }, 1500);
 }
 renderStartScreen();
-// renderQuiz();
 
 /* Källor:
 https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
