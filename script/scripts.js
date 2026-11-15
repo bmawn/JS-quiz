@@ -59,7 +59,7 @@ const questions = [
 function renderStartScreen() {
   quizContainer.innerHTML = "";
   const welcome = document.createElement("h2");
-  welcome.textContent = "Välkommen till Oskars quiz";
+  welcome.textContent = "Redo att quiza?";
   welcome.className = "mb-4";
   const nameInput = document.createElement("input");
   nameInput.placeholder = "Skriv ditt namn här...";
@@ -84,6 +84,16 @@ function renderStartScreen() {
   });
 
   quizContainer.append(welcome, nameInput, startButton, errorText);
+
+  const savedResult = localStorage.getItem("lastQuizResult");
+
+  if (savedResult !== null) {
+    const previousScoreText = document.createElement("div");
+    previousScoreText.className = "alert alert-info mt-3 mb-0";
+    previousScoreText.textContent = savedResult;
+
+    quizContainer.append(previousScoreText);
+  }
 }
 
 function renderQuiz() {
@@ -97,6 +107,10 @@ function renderQuiz() {
     endOfQuizGreeting.className = "mb-3";
     resultHeader.textContent = `Resultat: ${correctAnswers} av ${questions.length} rätt`;
     resultHeader.className = "lead mb-4";
+    localStorage.setItem(
+      "lastQuizResult",
+      `Föregående resultat: ${userName} med ${correctAnswers} av ${questions.length} rätt. `,
+    );
     quizContainer.append(endOfQuizGreeting, resultHeader);
 
     if (wrongAnswers.length > 0) {
